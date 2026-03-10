@@ -1,0 +1,26 @@
+package com.student.util;
+import com.student.model.Student;
+import com.student.service.StudentService;
+import com.student.service.InvalidMarksException;
+import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        StudentService service = new StudentService();
+        try {
+            System.out.print("Enter Student ID: ");
+            int id = sc.nextInt();
+            sc.nextLine();
+            System.out.print("Enter Name: ");
+            String name = sc.nextLine();
+            System.out.print("Enter Marks: ");
+            double marks = sc.nextDouble();
+            Student s = new Student(id, name, marks);
+            service.addStudent(s);
+        } catch (InvalidMarksException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        service.displayStudents();
+        sc.close();
+    }
+}
