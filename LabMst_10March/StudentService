@@ -1,0 +1,39 @@
+package com.student.service;
+import com.student.model.Student;
+import java.io.*;
+import java.util.*;
+public class StudentService {
+    private static final String FILE_NAME = "students.txt";
+    public void addStudent(Student s) throws InvalidMarksException {
+        if (s.getMarks() > 100 || s.getMarks() < 0) {
+            throw new InvalidMarksException("Marks must be between 0 and 100");
+        }
+        try {
+            FileWriter fw = new FileWriter(FILE_NAME, true);
+            fw.write(s.toString() + "\n");
+            fw.close();
+            System.out.println("Student added successfully.");
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found: " + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("IO Error: " + e.getMessage());
+        }
+    }
+    public void displayStudents() {
+        try {
+            FileReader fr = new FileReader(FILE_NAME);
+            BufferedReader br = new BufferedReader(fr);
+            String line;
+            System.out.println("Student Records:");
+            while ((line = br.readLine()) != null) {
+                String data[] = line.split(",");
+                System.out.println("ID: " + data[0] + " Name: " + data[1] + " Marks: " + data[2]);
+            }
+            br.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found.");
+        } catch (IOException e) {
+            System.out.println("Error reading file.");
+        }
+    }
+}
